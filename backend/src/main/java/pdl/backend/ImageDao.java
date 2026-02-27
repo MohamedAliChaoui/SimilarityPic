@@ -20,18 +20,18 @@ public class ImageDao implements Dao<Image> {
   public ImageDao() {
     final ClassPathResource imgFile = new ClassPathResource("test.jpg");
     byte[] fileContent;
-    try {
-      fileContent = Files.readAllBytes(imgFile.getFile().toPath());
+    try (java.io.InputStream inputStream = imgFile.getInputStream()) {
+      fileContent = inputStream.readAllBytes();
       // Obtenir la taille du fichier
-      Long size = imgFile.getFile().length();
+      Long size = (long) fileContent.length;
       // Déduire le format à partir du nom du fichier
       String format = "jpeg"; // Puisque c'est test.jpg
-      
+
       // Utiliser le nouveau constructeur avec 5 paramètres
       Image img = new Image("test.jpg", "test.jpg", fileContent, size, format);
       images.put(img.getId(), img);
     } catch (final IOException e) {
-      e.printStackTrace();
+      System.err.println("Avertissement: Impossible de charger test.jpg depuis les ressources.");
     }
   }
 
