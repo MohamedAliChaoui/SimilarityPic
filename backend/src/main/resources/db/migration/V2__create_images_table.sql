@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS images (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    path VARCHAR(255) NOT NULL,
+    data BYTEA,
+    favorite BOOLEAN DEFAULT FALSE,
+    published BOOLEAN DEFAULT FALSE,
+    saved BOOLEAN DEFAULT FALSE,
+    size BIGINT,
+    format VARCHAR(10),
+    user_id BIGINT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+); 

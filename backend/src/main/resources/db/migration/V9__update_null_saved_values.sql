@@ -1,0 +1,1 @@
+UPDATE images SET saved = FALSE WHERE saved IS NULL; 

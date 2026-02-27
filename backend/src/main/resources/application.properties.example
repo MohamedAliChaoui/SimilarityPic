@@ -1,0 +1,32 @@
+# Configuration de la base de données
+spring.datasource.url=jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:votre_nom_de_base}
+spring.datasource.username=${DB_USER:votre_nom_utilisateur}
+spring.datasource.password=${DB_PASSWORD:votre_mot_de_passe}
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Configuration Hibernate
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.format_sql=true
+
+# Configuration Flyway
+spring.flyway.enabled=false
+
+# Configuration du serveur
+server.port=${SERVER_PORT:8001}
+
+# Configuration de la sécurité
+jwt.secret=${JWT_SECRET:votre_secret_jwt}
+jwt.expiration=86400000
+
+# Configuration du stockage des images
+image.upload.dir=${UPLOAD_DIR:./uploads}
+image.max-size=10485760
+image.allowed-types=jpg,jpeg,png
+
+# Configuration CORS
+cors.allowed-origins=${CORS_ORIGINS:http://localhost:5173}
+cors.allowed-methods=GET,POST,PUT,DELETE,OPTIONS
+cors.allowed-headers=*
+cors.allow-credentials=true 

@@ -1,0 +1,1 @@
+UPDATE images SET path = CONCAT('/images/', name) WHERE path IS NULL; 
