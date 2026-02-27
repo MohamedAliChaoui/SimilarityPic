@@ -138,9 +138,9 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>10.20.1</version>
                 <configuration>
-                    <url>jdbc:postgresql://localhost:5432/mouhndiaye</url>
-                    <user>mouhndiaye</user>
-                    <password>Vitv1708#</password>
+                    <url>jdbc:postgresql://localhost:5432/similaritypic</url>
+                    <user>postgres</user>
+                    <password>postgres</password>
                 </configuration>
             </plugin>
         </plugins>

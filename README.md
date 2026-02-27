@@ -9,34 +9,18 @@
 - npm
 - Docker (optionnel)
 
-## Configuration de la Base de Données
-
-### En local
+### Configuration de la Base de Données
 1. Créer une base de données PostgreSQL :
 ```sql
-CREATE DATABASE votre_nom_de_base;
+CREATE DATABASE similaritypic;
 ```
 
-2. Créer un utilisateur PostgreSQL :
+2. Ajouter l'extension vector à la BDD :
 ```sql
-CREATE USER votre_nom_utilisateur WITH PASSWORD 'votre_mot_de_passe';
+\c similaritypic
+CREATE EXTENSION IF NOT EXISTS vector;
 ```
 
-3. Donner les droits à l'utilisateur :
-```sql
-GRANT ALL PRIVILEGES ON DATABASE votre_nom_de_base TO votre_nom_utilisateur;
-```
-
-### Au CREMI
-1. Se connecter à PostgreSQL :
-```bash
-psql -U votre_nom_utilisateur -h pgsql
-```
-
-2. Créer la base de données :
-```sql
-CREATE DATABASE votre_nom_utilisateur;
-```
 
 ## Configuration du Backend
 
@@ -46,18 +30,13 @@ cd backend/src/main/resources
 cp application.properties.example application.properties
 ```
 
-2. Modifier les paramètres de connexion dans `application.properties` :
+2. Modifier les paramètres de connexion via des variables d'environnement, ou directement dans `application.properties` (par défaut `similaritypic` et `postgres/postgres`).
 
-### En local
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/votre_nom_de_base
+spring.datasource.url=jdbc:postgresql://localhost:5432/similaritypic
+spring.datasource.username=postgres
+spring.datasource.password=postgres
 cors.allowed-origins=http://localhost:5173
-```
-
-### Au CREMI
-```properties
-spring.datasource.url=jdbc:postgresql://pgsql:5432/votre_nom_utilisateur
-cors.allowed-origins=http://votre_nom_utilisateur.emi.u-bordeaux.fr:5173
 ```
 
 ## Démarrage du Projet
@@ -79,9 +58,7 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-Le serveur backend sera accessible sur :
-- En local : `http://localhost:8001/`
-- Au CREMI : `http://votre_nom_utilisateur.emi.u-bordeaux.fr:8001/`
+Le serveur backend sera accessible sur : `http://localhost:8001/`
 
 ### Frontend
 
@@ -100,9 +77,7 @@ npm install
 npm run dev
 ```
 
-Le frontend sera accessible sur :
-- En local : `http://localhost:5173/`
-- Au CREMI : `http://votre_nom_utilisateur.emi.u-bordeaux.fr:5173/`
+Le frontend sera accessible sur : `http://localhost:5173/`
 
 ## Structure du Projet
 
@@ -165,14 +140,11 @@ Travail collaboratif via **Live Share** et **CI/CD avec GitLab**.
 ### ✅ Systèmes d'exploitation testés
 
 ✔ **Windows 11** (testé sur PC perso par **Yassine** et **Mohamed Ali**)  
-✔ **Linux** (testé sur **machine CREMI**)  
-✔ **macOS** (testé sur PC perso par **Mouhamed Ndiaye**)
-
 ### ✅ Navigateurs compatibles
 
-✔ **Google Chrome** (testé par **Mohamed Ali**)  
-✔ **Brave** (testé par **Yassine**)  
-✔ **Safari** (testé par **Mouhamed Ndiaye**)
+✔ **Google Chrome**  
+✔ **Brave**  
+✔ **Safari**
 
 ---
 
@@ -241,8 +213,8 @@ npm run build
 ### 📥 Cloner le projet
 
 ```bash
-git clone git@gitlab.emi.u-bordeaux.fr:pdl-l3/teams/2025/l1/l1c.git
-cd l1c
+git clone <votre_url_github>
+cd similaritypic
 ```
 
 ---
