@@ -13,8 +13,7 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'target/dist',
-    assetsDir: 'static'
-  },  
-  plugins: [vue(), vueDevTools({launchEditor: 'code',})],
+    outDir: 'dist'
+  },
+  plugins: [vue(), vueDevTools({ launchEditor: 'code', })],
 })
