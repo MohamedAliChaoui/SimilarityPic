@@ -19,7 +19,7 @@ export interface ImageSearchParams {
 }
 
 const instance = axios.create({
-  baseURL: "/",
+  baseURL: import.meta.env.VITE_API_URL || "/",
   timeout: 60000,
 });
 
@@ -41,12 +41,12 @@ const requests = {
     }
     return instance.get(url, config).then(responseBody);
   },
-  post: (url: string, body: unknown, config = {}) => 
-    instance.post(url, body, { 
+  post: (url: string, body: unknown, config = {}) =>
+    instance.post(url, body, {
       ...config,
-      headers: { 
+      headers: {
         "Content-Type": "multipart/form-data",
-        ...(config as {headers?: Record<string, string>})?.headers
+        ...(config as { headers?: Record<string, string> })?.headers
       }
     }).then(responseBody),
   put: (url: string, body: unknown = {}, config = {}) =>
@@ -59,24 +59,24 @@ export interface SimilarImageType extends ImageType {
 }
 
 export const api = {
-  toggleFavorite: (id: number): Promise<void> => 
+  toggleFavorite: (id: number): Promise<void> =>
     requests.put(`images/${id}/favorite`),
-    
-  toggleSave: (id: number): Promise<void> => 
+
+  toggleSave: (id: number): Promise<void> =>
     requests.put(`images/${id}/save`),
-    
-  togglePublish: (id: number): Promise<void> => 
+
+  togglePublish: (id: number): Promise<void> =>
     requests.put(`images/${id}/publish`),
-    
-  getFavorites: (): Promise<ImageType[]> => 
+
+  getFavorites: (): Promise<ImageType[]> =>
     requests.get('images/favorites'),
-  
-  getImageList: (): Promise<ImageType[]> => 
+
+  getImageList: (): Promise<ImageType[]> =>
     requests.get('images'),
 
-  getImage: (id: number): Promise<Blob> => 
-    requests.get(`images/${id}`, { 
-      responseType: "blob" 
+  getImage: (id: number): Promise<Blob> =>
+    requests.get(`images/${id}`, {
+      responseType: "blob"
     }),
 
   addImage: (formData: FormData): Promise<number> => {
@@ -88,31 +88,31 @@ export const api = {
     return requests.post('images', formData);
   },
 
-  deleteImage: (id: number): Promise<void> => 
+  deleteImage: (id: number): Promise<void> =>
     requests.delete(`images/${id}`),
 
-  getFeed: (): Promise<ImageType[]> => 
+  getFeed: (): Promise<ImageType[]> =>
     requests.get('images/feed'),
 
   getSimilarImages: (
-    id: number, 
-    number: number = 1, 
+    id: number,
+    number: number = 1,
     descriptor: 'RGB3D' | 'HS' = 'RGB3D'
-  ): Promise<SimilarImageType[]> => 
-    requests.get(`images/${id}/similar`, { 
-      params: { number, descriptor } 
+  ): Promise<SimilarImageType[]> =>
+    requests.get(`images/${id}/similar`, {
+      params: { number, descriptor }
     }),
 
   // Méthodes pour la recherche
-  searchUsers: (query: string): Promise<UserSearchResult[]> => 
+  searchUsers: (query: string): Promise<UserSearchResult[]> =>
     requests.get('auth/users/search', {
       params: { query }
     }),
-    
-  searchImages: (params: ImageSearchParams): Promise<ImageType[]> => 
+
+  searchImages: (params: ImageSearchParams): Promise<ImageType[]> =>
     requests.get('images/search', { params }),
 
   getMyGallery: () => requests.get('/images/my-gallery'),
-  getSavedImages: (): Promise<ImageType[]> => 
+  getSavedImages: (): Promise<ImageType[]> =>
     requests.get('images/saved'),
 };
