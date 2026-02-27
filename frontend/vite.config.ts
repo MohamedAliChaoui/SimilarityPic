@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '^/': {
-        target: 'http://localhost:8090', // Spring boot backend address
+        target: 'http://localhost:8001', // Spring boot backend address
         changeOrigin: true
       }
     }
