@@ -39,8 +39,10 @@ public class ImageLoader implements CommandLineRunner {
 
         // Check if folder exists
         if (!Files.exists(imagesPath) || !Files.isDirectory(imagesPath)) {
-            throw new IOException(
-                    "Le dossier 'images' n'existe pas. Veuillez créer ce dossier à l'emplacement de lancement du serveur.");
+            System.out.println(
+                    "Avertissement : Le dossier 'images' n'existe pas ou n'est pas un répertoire à l'emplacement "
+                            + imagesPath.toAbsolutePath() + ". Aucune image initiale ne sera chargée.");
+            return;
         }
 
         File imagesDir = imagesPath.toFile();
@@ -61,10 +63,11 @@ public class ImageLoader implements CommandLineRunner {
                     try {
                         // Vérifier si l'image existe déjà dans la base de données par son nom
                         if (imageRepository.existsByName(file.getName())) {
-                            System.out.println("L'image " + file.getName() + " existe déjà dans la base de données. Ignorée.");
+                            System.out.println(
+                                    "L'image " + file.getName() + " existe déjà dans la base de données. Ignorée.");
                             continue; // Passer au fichier suivant
                         }
-                        
+
                         byte[] imageData = Files.readAllBytes(file.toPath());
                         Long size = file.length();
                         String format = contentType.split("/")[1];
